@@ -30,6 +30,16 @@ A lightweight personal finance dashboard for recording income and expenses, filt
 - Unit tests: `npm test`
 - Browser tests: `npm run e2e`
 
+## Deploy to Vercel
+
+This project is a static app and is ready for Vercel with no build step.
+
+1. Push this repo to GitHub.
+2. Open Vercel and choose "Add New Project".
+3. Import this repository.
+4. Keep the default settings: framework preset "Other" or static, with no build command and output directory empty/root.
+5. Deploy.
+
 ## Design decisions
 
 - Money is stored as integer paise to avoid floating-point bugs.
