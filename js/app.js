@@ -8,6 +8,25 @@
     },
   };
 
+  function getExpenseChoices() {
+    return ['Food', 'Travel', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Other'];
+  }
+
+  function getIncomeChoices() {
+    return ['Salary', 'Freelance', 'Other'];
+  }
+
+  function getCategoryChoices(type = 'all') {
+    const allChoices = [...getExpenseChoices(), ...getIncomeChoices()];
+    if (type === 'expense') {
+      return getExpenseChoices();
+    }
+    if (type === 'income') {
+      return getIncomeChoices();
+    }
+    return ['all', ...new Set(allChoices)];
+  }
+
   function getVisibleTransactions() {
     const list = [...state.transactions];
     const type = state.filters.type;
@@ -37,8 +56,8 @@
     }
 
     const choices = {
-      expense: ['Food', 'Travel', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Other'],
-      income: ['Salary', 'Freelance', 'Other'],
+      expense: getExpenseChoices(),
+      income: getIncomeChoices(),
     };
 
     const allowed = choices[type] || choices.expense;
@@ -47,6 +66,24 @@
       .map((option) => `<option value="${option}">${option}</option>`)
       .join('');
     categoryField.value = allowed.includes(current) ? current : allowed[0];
+  }
+
+  function syncFilterCategoryOptions(type = state.filters.type) {
+    const categoryField = document.getElementById('filter-category');
+    if (!categoryField) {
+      return;
+    }
+
+    const allowed = type === 'all' ? ['all', ...new Set([...getExpenseChoices(), ...getIncomeChoices()])] : ['all', ...getCategoryChoices(type)];
+    const current = state.filters.category;
+
+    categoryField.innerHTML = allowed
+      .map((option) => `<option value="${option === 'all' ? 'all' : option}">${option === 'all' ? 'All categories' : option}</option>`)
+      .join('');
+
+    const nextValue = allowed.includes(current) ? current : 'all';
+    state.filters.category = nextValue;
+    categoryField.value = nextValue;
   }
 
   function resetForm() {
@@ -87,7 +124,7 @@
   function render() {
     const totals = ET.logic.calculateTotals(state.transactions);
     ET.ui.renderTotals(totals);
-    ET.ui.renderList(getVisibleTransactions());
+    ET.ui.renderList(getVisibleTransactions(), state.transactions.length, state.filters);
 
     const filterType = document.getElementById('filter-type');
     const filterCategory = document.getElementById('filter-category');
@@ -133,6 +170,12 @@
     render();
   }
 
+  function handleFilterClear() {
+    state.filters = { type: 'all', category: 'all' };
+    syncFilterCategoryOptions('all');
+    render();
+  }
+
   function bindEvents() {
     const form = document.querySelector('.transaction-form');
     if (form) {
@@ -148,10 +191,15 @@
     const filterType = document.getElementById('filter-type');
     const filterCategory = document.getElementById('filter-category');
     const clearButton = document.querySelector('.link-button');
+    const filteredClearButton = document.querySelector('[data-action="clear-filters"]');
 
     if (filterType) {
       filterType.addEventListener('change', (event) => {
         state.filters.type = event.target.value;
+        syncFilterCategoryOptions(state.filters.type);
+        if (state.filters.category === 'all' && event.target.value !== 'all') {
+          state.filters.category = 'all';
+        }
         render();
       });
     }
@@ -164,10 +212,11 @@
     }
 
     if (clearButton) {
-      clearButton.addEventListener('click', () => {
-        state.filters = { type: 'all', category: 'all' };
-        render();
-      });
+      clearButton.addEventListener('click', handleFilterClear);
+    }
+
+    if (filteredClearButton) {
+      filteredClearButton.addEventListener('click', handleFilterClear);
     }
 
     document.getElementById('tx-list')?.addEventListener('click', (event) => {
@@ -243,6 +292,7 @@
   function init() {
     state.transactions = ET.storage.load();
     bindEvents();
+    syncFilterCategoryOptions('all');
     resetForm();
     render();
   }

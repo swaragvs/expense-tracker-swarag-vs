@@ -20,26 +20,36 @@
     balanceCard.classList.toggle('summary-card--negative', totals.balancePaise < 0);
   }
 
-  function renderList(transactions) {
+  function renderList(transactions, totalCount, filters = {}) {
     const list = document.getElementById('tx-list');
     const empty = document.querySelector('.empty-state');
+    const filteredEmpty = document.querySelector('.filtered-empty-state');
+    const listMeta = document.getElementById('list-meta');
     const template = document.getElementById('tx-template');
 
     if (!list || !template) {
       return;
     }
 
-    list.innerHTML = '';
+    const visibleCount = Array.isArray(transactions) ? transactions.length : 0;
+    const totalTransactions = Number(totalCount) || 0;
 
-    if (!Array.isArray(transactions) || transactions.length === 0) {
-      if (empty) {
-        empty.hidden = false;
-      }
-      return;
+    if (listMeta) {
+      listMeta.textContent = `Showing ${visibleCount} of ${totalTransactions}`;
     }
 
+    list.innerHTML = '';
+
     if (empty) {
-      empty.hidden = true;
+      empty.hidden = totalTransactions !== 0 || (filters.type !== 'all' || filters.category !== 'all');
+    }
+
+    if (filteredEmpty) {
+      filteredEmpty.hidden = visibleCount !== 0 || totalTransactions === 0;
+    }
+
+    if (!Array.isArray(transactions) || transactions.length === 0) {
+      return;
     }
 
     transactions.forEach((transaction) => {

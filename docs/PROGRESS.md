@@ -10,6 +10,7 @@
 - Built the Phase 3 static dashboard shell in `index.html` and `css/style.css` with the summary cards, form, filter bar, transaction template, delete dialog, and toast styling.
 - Implemented the Phase 4 storage and render layer in `js/storage.js`, `js/ui.js`, and `js/app.js` with `localStorage` persistence, validation, dynamic category switching, default date handling, and state-based redraws.
 - Confirmed the syntax and regression checks remain green after the app layer implementation.
+- Added the Phase 5 edit/delete/filter flow with state-driven filters, filtered-empty feedback, delete confirmation, and no-duplicate editing behavior.
 
 ## Decisions
 - Build the app as a vanilla HTML/CSS/JS project without frameworks.
@@ -19,10 +20,11 @@
 - Validate dates and amounts in a strict, reusable way before creating transactions.
 - Keep the UI visually consistent with a calm fintech aesthetic and accessible focus states.
 - Treat the app state as the single source of truth and redraw everything from it after each user action.
+- Keep summary totals global, while the list can be filtered independently to show “Showing X of Y”.
 
 ## Next
-- Move into the edit, delete, and filter phase for data management interactions and filtered list behavior.
+- Move into the monthly summary and category chart phase for overview analytics.
 
 ## Known issues
 - No known issues in the current logic layer; the unit test suite is green.
-- The UI is now live and persisted, but advanced filter/edit/delete polish is still pending for the next phase.
+- The dashboard is now fully interactive for add/edit/delete/filter flows, and analytics features remain for the next phase.
