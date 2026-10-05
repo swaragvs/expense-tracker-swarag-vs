@@ -8,16 +8,26 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header class="topbar">
+    <svg class="leaf leaf--left" viewBox="0 0 90 120" fill="#D4AF37" aria-hidden="true">
+      <path d="M45 115C45 70 40 40 20 10c25 8 35 30 25 105zM45 90c10-30 25-40 45-45-10 25-25 40-45 45zM42 70C30 50 15 45 0 45c10 20 25 28 42 25z"/>
+    </svg>
+    <svg class="leaf leaf--right" viewBox="0 0 90 120" fill="#D4AF37" aria-hidden="true">
+      <path d="M45 115C45 70 40 40 20 10c25 8 35 30 25 105zM45 90c10-30 25-40 45-45-10 25-25 40-45 45zM42 70C30 50 15 45 0 45c10 20 25 28 42 25z"/>
+    </svg>
+    <div class="brand-block">
+      <p class="eyebrow">Expense Tracker</p>
+      <svg class="ornament" viewBox="0 0 150 22" fill="none" stroke="#D4AF37" stroke-width="1.5" aria-hidden="true">
+        <path d="M0 11h55M95 11h55"/>
+        <path d="M75 2l8 9-8 9-8-9z" fill="#D4AF37"/>
+        <circle cx="60" cy="11" r="2.5" fill="#D4AF37"/>
+        <circle cx="90" cy="11" r="2.5" fill="#D4AF37"/>
+      </svg>
+    </div>
+  </header>
+
   <div class="app-shell">
     <div class="page-layout">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Expense Tracker</p>
-          <h1>Royal Ledger</h1>
-        </div>
-        <button class="ghost-button" type="button">This month</button>
-      </header>
-
       <section class="summary-grid" aria-label="Financial summary">
         <article class="summary-card summary-card--income">
           <p class="summary-label">Total Income</p>
@@ -125,7 +135,13 @@
         <div class="list-meta" id="list-meta">Showing 0 of 0</div>
         <ul class="transaction-list" id="tx-list"></ul>
         <div class="empty-state" hidden>
-          <div class="empty-state__illustration">📊</div>
+          <div class="empty-state__illustration" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M7 9h10M7 13h6"></path>
+              <path d="M16 5V3M8 5V3"></path>
+            </svg>
+          </div>
           <p>No transactions yet.</p>
           <span>Add your first entry to get started.</span>
         </div>
@@ -163,8 +179,20 @@
         <span class="category-chip">Food</span>
         <span class="amount amount--income">₹0</span>
         <div class="icon-actions">
-          <button type="button" class="icon-button" data-action="edit" aria-label="Edit transaction">✎</button>
-          <button type="button" class="icon-button" data-action="delete" aria-label="Delete transaction">🗑</button>
+          <button type="button" class="icon-button" data-action="edit" aria-label="Edit transaction">
+            <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+            </svg>
+          </button>
+          <button type="button" class="icon-button" data-action="delete" aria-label="Delete transaction">
+            <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18"></path>
+              <path d="M8 6V4h8v2"></path>
+              <path d="M6 6l1 14h10l1-14"></path>
+              <path d="M10 10v6M14 10v6"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </li>
