@@ -167,8 +167,14 @@
     fields.forEach((field) => {
       const message = errors && errors[field];
       const node = document.getElementById(`${field}-error`);
+      const input = document.getElementById(field);
+
       if (node) {
         node.textContent = message || '';
+      }
+
+      if (input) {
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
       }
     });
   }
@@ -177,8 +183,14 @@
     const fields = ['amount', 'category', 'date', 'description'];
     fields.forEach((field) => {
       const node = document.getElementById(`${field}-error`);
+      const input = document.getElementById(field);
+
       if (node) {
         node.textContent = '';
+      }
+
+      if (input) {
+        input.setAttribute('aria-invalid', 'false');
       }
     });
   }
