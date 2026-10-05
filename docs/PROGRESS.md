@@ -28,8 +28,8 @@
 - Ensure the app remains usable on mobile and keyboard-accessible with strong contrast and explicit focus styling.
 
 ## Next
-- README and final QA submission polish.
+- Final QA submission and repository handoff.
 
 ## Known issues
-- No known issues in the current logic layer; the unit test suite is green.
-- The dashboard is fully interactive and polished, with only final README and submission steps remaining.
+- No known issues in the current logic layer; the unit and browser test suites are green.
+- The dashboard is fully interactive, documented, and ready for final submission.
