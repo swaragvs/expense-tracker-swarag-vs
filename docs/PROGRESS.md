@@ -29,6 +29,7 @@
 
 ## Next
 - Final QA submission and repository handoff.
+- Reconnected the Royal Ledger dashboard shell to the ET logic/storage/UI architecture and confirmed the browser and unit regressions remain green.
 
 ## Known issues
 - No known issues in the current logic layer; the unit and browser test suites are green.

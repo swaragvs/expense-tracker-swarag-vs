@@ -1,226 +1,178 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Expense Tracker</title>
-    <meta
-      name="description"
-      content="Track income and expenses with a modern, minimal dashboard."
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div class="app-shell">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expense Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="page-layout">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Overview</p>
-          <h1>Expense Tracker</h1>
+          <p class="eyebrow">Expense Tracker</p>
+          <h1>Royal Ledger</h1>
         </div>
-        <button type="button" class="ghost-button">This month</button>
+        <button class="ghost-button" type="button">This month</button>
       </header>
 
-      <main class="page-layout">
-        <section class="summary-grid" aria-label="Summary totals">
-          <article class="summary-card summary-card--income" aria-live="polite">
-            <p class="summary-label">Income</p>
-            <p class="summary-amount">₹0.00</p>
-          </article>
+      <section class="summary-grid" aria-label="Financial summary">
+        <article class="summary-card summary-card--income">
+          <p class="summary-label">Total Income</p>
+          <p class="summary-amount" id="income-total">₹0</p>
+        </article>
+        <article class="summary-card summary-card--expense">
+          <p class="summary-label">Total Expenses</p>
+          <p class="summary-amount" id="expense-total">₹0</p>
+        </article>
+        <article class="summary-card summary-card--balance">
+          <p class="summary-label">Current Balance</p>
+          <p class="summary-amount" id="balance-total">₹0</p>
+        </article>
+      </section>
 
-          <article class="summary-card summary-card--expense" aria-live="polite">
-            <p class="summary-label">Expenses</p>
-            <p class="summary-amount">₹0.00</p>
-          </article>
-
-          <article class="summary-card summary-card--balance" aria-live="polite">
-            <p class="summary-label">Balance</p>
-            <p class="summary-amount">₹0.00</p>
-          </article>
-        </section>
-
-        <section class="panel monthly-overview" aria-labelledby="monthly-overview-title">
-          <div class="panel-header overview-header">
-            <h2 id="monthly-overview-title">Monthly overview</h2>
-            <label class="month-picker" for="month-filter">
-              <span class="sr-only">Month</span>
-              <input id="month-filter" type="month" />
-            </label>
+      <div class="dashboard-grid">
+        <aside class="panel" id="formPanel">
+          <div class="panel-header">
+            <h2 id="formTitle">Add Transaction</h2>
           </div>
 
-          <div class="monthly-stats" aria-live="polite">
-            <article class="mini-stat mini-stat--income">
-              <p class="mini-stat__label">Income</p>
-              <strong class="mini-stat__value" id="month-income">₹0.00</strong>
-            </article>
-            <article class="mini-stat mini-stat--expense">
-              <p class="mini-stat__label">Expenses</p>
-              <strong class="mini-stat__value" id="month-expenses">₹0.00</strong>
-            </article>
-            <article class="mini-stat mini-stat--balance">
-              <p class="mini-stat__label">Balance</p>
-              <strong class="mini-stat__value" id="month-balance">₹0.00</strong>
-            </article>
-          </div>
+          <form class="transaction-form" id="transaction-form" novalidate>
+            <div class="type-toggle" role="radiogroup" aria-label="Transaction type">
+              <label class="toggle-option"><input type="radio" name="type" value="income" checked><span>Income</span></label>
+              <label class="toggle-option"><input type="radio" name="type" value="expense"><span>Expense</span></label>
+            </div>
 
-          <div id="month-chart" class="chart" role="img" aria-label="Expense category chart for selected month"></div>
-        </section>
+            <div class="field-group">
+              <label for="amount">Amount (₹)</label>
+              <input id="amount" type="number" step="0.01" inputmode="decimal" placeholder="0.00">
+              <p class="field-error" id="amount-error"></p>
+            </div>
 
-        <div class="dashboard-grid">
-          <section class="panel panel--form" aria-labelledby="transaction-form-title">
+            <div class="field-group">
+              <label for="category">Category</label>
+              <select id="category"></select>
+              <p class="field-error" id="category-error"></p>
+            </div>
+
+            <div class="field-group">
+              <label for="date">Date</label>
+              <input id="date" type="date">
+              <p class="field-error" id="date-error"></p>
+            </div>
+
+            <div class="field-group">
+              <label for="description">Description</label>
+              <input id="description" maxlength="100" placeholder="e.g. Monthly groceries">
+              <p class="field-error" id="description-error"></p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-button" id="sub">Add Transaction</button>
+              <button type="button" class="secondary-button hidden" id="cancel">Cancel</button>
+            </div>
+          </form>
+        </aside>
+
+        <section class="panel">
+          <div class="overview-header">
             <div class="panel-header">
-              <h2 id="transaction-form-title">Add transaction</h2>
+              <h2>Overview</h2>
             </div>
-
-            <form class="transaction-form" novalidate>
-              <fieldset class="type-toggle" aria-label="Transaction type">
-                <legend class="sr-only">Transaction type</legend>
-                <label class="toggle-option">
-                  <input type="radio" name="type" value="expense" checked />
-                  <span>Expense</span>
-                </label>
-                <label class="toggle-option">
-                  <input type="radio" name="type" value="income" />
-                  <span>Income</span>
-                </label>
-              </fieldset>
-
-              <div class="field-group">
-                <label for="amount">Amount</label>
-                <input
-                  id="amount"
-                  name="amount"
-                  type="text"
-                  inputmode="decimal"
-                  placeholder="0.00"
-                  aria-invalid="false"
-                  aria-describedby="amount-error"
-                />
-                <p class="field-error" id="amount-error" aria-live="polite"></p>
-              </div>
-
-              <div class="field-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" aria-invalid="false" aria-describedby="category-error">
-                  <option value="Food">Food</option>
-                  <option value="Travel">Travel</option>
-                  <option value="Shopping">Shopping</option>
-                  <option value="Bills">Bills</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Health">Health</option>
-                  <option value="Other">Other</option>
-                </select>
-                <p class="field-error" id="category-error" aria-live="polite"></p>
-              </div>
-
-              <div class="field-group">
-                <label for="date">Date</label>
-                <input id="date" name="date" type="date" aria-invalid="false" aria-describedby="date-error" />
-                <p class="field-error" id="date-error" aria-live="polite"></p>
-              </div>
-
-              <div class="field-group">
-                <label for="description">Description</label>
-                <input
-                  id="description"
-                  name="description"
-                  type="text"
-                  maxlength="100"
-                  placeholder="Lunch, salary, rent..."
-                  aria-invalid="false"
-                  aria-describedby="description-error"
-                />
-                <p class="field-error" id="description-error" aria-live="polite"></p>
-              </div>
-
-              <div class="form-actions">
-                <button type="submit" class="primary-button">Add transaction</button>
-                <button type="button" class="secondary-button hidden">Cancel edit</button>
-              </div>
-            </form>
-          </section>
-
-          <section class="panel panel--transactions" aria-labelledby="transactions-title">
-            <div class="panel-header panel-header--stacked">
-              <h2 id="transactions-title">Transactions</h2>
-              <div class="filter-bar" aria-label="Filter transactions">
-                <label class="sr-only" for="filter-type">Filter by type</label>
-                <select id="filter-type" name="filter-type">
-                  <option value="all">All types</option>
-                  <option value="income">Income</option>
-                  <option value="expense">Expense</option>
-                </select>
-
-                <label class="sr-only" for="filter-category">Filter by category</label>
-                <select id="filter-category" name="filter-category">
-                  <option value="all">All categories</option>
-                  <option value="Food">Food</option>
-                  <option value="Travel">Travel</option>
-                  <option value="Shopping">Shopping</option>
-                  <option value="Bills">Bills</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Health">Health</option>
-                  <option value="Other">Other</option>
-                </select>
-
-                <button type="button" class="link-button">Clear filters</button>
-              </div>
+            <div class="month-picker">
+              <select id="month-filter" aria-label="Month"></select>
             </div>
+          </div>
 
-            <div class="list-meta" id="list-meta" aria-live="polite">Showing 0 of 0</div>
-
-            <ul class="transaction-list" id="tx-list" aria-live="polite"></ul>
-
-            <template id="tx-template">
-              <li class="transaction-row">
-                <div class="row-main">
-                  <span class="category-chip">Category</span>
-                  <div>
-                    <p class="transaction-description"></p>
-                    <p class="transaction-date"></p>
-                  </div>
-                </div>
-                <div class="row-actions">
-                  <strong class="amount"></strong>
-                  <div class="icon-actions">
-                    <button type="button" class="icon-button" data-action="edit" aria-label="Edit transaction">✎</button>
-                    <button type="button" class="icon-button" data-action="delete" aria-label="Delete transaction">🗑</button>
-                  </div>
-                </div>
-              </li>
-            </template>
-
-            <div class="empty-state" hidden>
-              <div class="empty-state__illustration" aria-hidden="true">📊</div>
-              <p>No transactions yet</p>
-              <span>Add your first expense or income entry.</span>
+          <div class="monthly-stats">
+            <div class="mini-stat mini-stat--income">
+              <p class="mini-stat__label">Income</p>
+              <div class="mini-stat__value" id="month-income">₹0</div>
             </div>
-
-            <div class="filtered-empty-state" hidden>
-              <div class="empty-state__illustration" aria-hidden="true">🔎</div>
-              <p>No matches</p>
-              <button type="button" class="link-button" data-action="clear-filters">Clear filters</button>
+            <div class="mini-stat mini-stat--expense">
+              <p class="mini-stat__label">Expenses</p>
+              <div class="mini-stat__value" id="month-expenses">₹0</div>
             </div>
-          </section>
+            <div class="mini-stat mini-stat--balance">
+              <p class="mini-stat__label">Net</p>
+              <div class="mini-stat__value" id="month-balance">₹0</div>
+            </div>
+          </div>
+
+          <div class="chart" id="month-chart" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="overview-header">
+          <div class="panel-header">
+            <h2>Transactions</h2>
+          </div>
         </div>
-      </main>
+
+        <div class="filter-bar">
+          <select id="filter-type" aria-label="Type">
+            <option value="all">All types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <select id="filter-category" aria-label="Category"></select>
+          <button type="button" class="link-button" data-action="clear-filters">Clear filters</button>
+        </div>
+
+        <div class="list-meta" id="list-meta">Showing 0 of 0</div>
+        <ul class="transaction-list" id="tx-list"></ul>
+        <div class="empty-state" hidden>
+          <div class="empty-state__illustration">📊</div>
+          <p>No transactions yet.</p>
+          <span>Add your first entry to get started.</span>
+        </div>
+        <div class="filtered-empty-state" hidden>
+          <p>No transactions match these filters.</p>
+          <button type="button" class="link-button" data-action="clear-filters">Clear filters</button>
+        </div>
+      </section>
     </div>
+  </div>
 
-    <dialog id="confirm-dialog" aria-labelledby="confirm-dialog-title" aria-modal="true">
-      <form method="dialog">
-        <h3 id="confirm-dialog-title">Delete transaction?</h3>
-        <p>This action cannot be undone.</p>
-        <div class="dialog-actions">
-          <button type="submit" class="secondary-button" value="cancel">Cancel</button>
-          <button type="submit" class="danger-button" value="delete">Delete</button>
+  <dialog id="confirm-dialog">
+    <form method="dialog">
+      <h3>Delete this transaction?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary-button" type="submit">Cancel</button>
+        <button value="delete" class="danger-button" type="submit">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+
+  <template id="tx-template">
+    <li class="transaction-row transaction-row--income">
+      <div class="row-main">
+        <div class="dot">+</div>
+        <div>
+          <p class="transaction-description">Laundry</p>
+          <div class="transaction-date">01 Oct 2026</div>
         </div>
-      </form>
-    </dialog>
+      </div>
+      <div class="row-actions">
+        <span class="category-chip">Food</span>
+        <span class="amount amount--income">₹0</span>
+        <div class="icon-actions">
+          <button type="button" class="icon-button" data-action="edit" aria-label="Edit transaction">✎</button>
+          <button type="button" class="icon-button" data-action="delete" aria-label="Delete transaction">🗑</button>
+        </div>
+      </div>
+    </li>
+  </template>
 
-    <div class="toast" role="status" aria-live="polite" aria-atomic="true">Saved</div>
-
-    <script src="js/logic.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
-  </body>
+  <script src="js/logic.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
 </html>
