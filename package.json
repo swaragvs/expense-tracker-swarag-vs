@@ -1,0 +1,8 @@
+{
+  "name": "expense-tracker-swarag-vs",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/unit"
+  },
+  "devDependencies": {}
+}
