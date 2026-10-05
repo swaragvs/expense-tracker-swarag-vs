@@ -4,10 +4,203 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
+    <meta
+      name="description"
+      content="Track income and expenses with a modern, minimal dashboard."
+    />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <h1>Expense Tracker</h1>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h1>Expense Tracker</h1>
+        </div>
+        <button type="button" class="ghost-button">This month</button>
+      </header>
+
+      <main class="page-layout">
+        <section class="summary-grid" aria-label="Summary totals">
+          <article class="summary-card summary-card--income" aria-live="polite">
+            <p class="summary-label">Income</p>
+            <p class="summary-amount">₹51,250</p>
+          </article>
+
+          <article class="summary-card summary-card--expense" aria-live="polite">
+            <p class="summary-label">Expenses</p>
+            <p class="summary-amount">₹28,430</p>
+          </article>
+
+          <article class="summary-card summary-card--balance" aria-live="polite">
+            <p class="summary-label">Balance</p>
+            <p class="summary-amount">₹22,820</p>
+          </article>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="panel panel--form" aria-labelledby="transaction-form-title">
+            <div class="panel-header">
+              <h2 id="transaction-form-title">Add transaction</h2>
+            </div>
+
+            <form class="transaction-form" novalidate>
+              <fieldset class="type-toggle" aria-label="Transaction type">
+                <legend class="sr-only">Transaction type</legend>
+                <label class="toggle-option">
+                  <input type="radio" name="type" value="expense" checked />
+                  <span>Expense</span>
+                </label>
+                <label class="toggle-option">
+                  <input type="radio" name="type" value="income" />
+                  <span>Income</span>
+                </label>
+              </fieldset>
+
+              <div class="field-group">
+                <label for="amount">Amount</label>
+                <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0.00" />
+                <p class="field-error" id="amount-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                  <option value="Food">Food</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Bills">Bills</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Health">Health</option>
+                  <option value="Other">Other</option>
+                </select>
+                <p class="field-error" id="category-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="date">Date</label>
+                <input id="date" name="date" type="date" />
+                <p class="field-error" id="date-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="description">Description</label>
+                <input id="description" name="description" type="text" maxlength="100" placeholder="Lunch, salary, rent..." />
+                <p class="field-error" id="description-error" aria-live="polite"></p>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="primary-button">Add transaction</button>
+                <button type="button" class="secondary-button hidden">Cancel edit</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel panel--transactions" aria-labelledby="transactions-title">
+            <div class="panel-header panel-header--stacked">
+              <h2 id="transactions-title">Transactions</h2>
+              <div class="filter-bar" aria-label="Filter transactions">
+                <label class="sr-only" for="filter-type">Filter by type</label>
+                <select id="filter-type" name="filter-type">
+                  <option value="all">All types</option>
+                  <option value="income">Income</option>
+                  <option value="expense">Expense</option>
+                </select>
+
+                <label class="sr-only" for="filter-category">Filter by category</label>
+                <select id="filter-category" name="filter-category">
+                  <option value="all">All categories</option>
+                  <option value="Food">Food</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Bills">Bills</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Health">Health</option>
+                  <option value="Other">Other</option>
+                </select>
+
+                <button type="button" class="link-button">Clear filters</button>
+              </div>
+            </div>
+
+            <div class="list-meta" aria-live="polite">Showing 3 of 12</div>
+
+            <ul class="transaction-list" id="tx-list" aria-live="polite">
+              <!-- TEMP -->
+              <li class="transaction-row transaction-row--expense">
+                <div class="row-main">
+                  <span class="category-chip">Food</span>
+                  <div>
+                    <p class="transaction-description">Lunch at Resto</p>
+                    <p class="transaction-date">03 Oct 2026</p>
+                  </div>
+                </div>
+                <div class="row-actions">
+                  <strong class="amount amount--expense">-₹420</strong>
+                  <div class="icon-actions">
+                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
+                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="transaction-row transaction-row--income">
+                <div class="row-main">
+                  <span class="category-chip category-chip--income">Salary</span>
+                  <div>
+                    <p class="transaction-description">Monthly salary</p>
+                    <p class="transaction-date">01 Oct 2026</p>
+                  </div>
+                </div>
+                <div class="row-actions">
+                  <strong class="amount amount--income">+₹25,000</strong>
+                  <div class="icon-actions">
+                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
+                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="transaction-row transaction-row--expense">
+                <div class="row-main">
+                  <span class="category-chip">Bills</span>
+                  <div>
+                    <p class="transaction-description">Electricity bill</p>
+                    <p class="transaction-date">08 Oct 2026</p>
+                  </div>
+                </div>
+                <div class="row-actions">
+                  <strong class="amount amount--expense">-₹1,280</strong>
+                  <div class="icon-actions">
+                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
+                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="empty-state" hidden>
+              <div class="empty-state__illustration" aria-hidden="true">📊</div>
+              <p>No transactions yet</p>
+              <span>Add your first expense or income entry.</span>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="confirm-dialog" aria-labelledby="confirm-dialog-title">
+      <form method="dialog">
+        <h3 id="confirm-dialog-title">Delete transaction?</h3>
+        <p>This action cannot be undone.</p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary-button" value="cancel">Cancel</button>
+          <button type="submit" class="danger-button" value="delete">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" aria-live="polite" aria-atomic="true">Saved</div>
 
     <script src="js/logic.js"></script>
     <script src="js/storage.js"></script>
