@@ -125,59 +125,26 @@
 
             <div class="list-meta" aria-live="polite">Showing 3 of 12</div>
 
-            <ul class="transaction-list" id="tx-list" aria-live="polite">
-              <!-- TEMP -->
-              <li class="transaction-row transaction-row--expense">
-                <div class="row-main">
-                  <span class="category-chip">Food</span>
-                  <div>
-                    <p class="transaction-description">Lunch at Resto</p>
-                    <p class="transaction-date">03 Oct 2026</p>
-                  </div>
-                </div>
-                <div class="row-actions">
-                  <strong class="amount amount--expense">-₹420</strong>
-                  <div class="icon-actions">
-                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
-                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
-                  </div>
-                </div>
-              </li>
+            <ul class="transaction-list" id="tx-list" aria-live="polite"></ul>
 
-              <li class="transaction-row transaction-row--income">
+            <template id="tx-template">
+              <li class="transaction-row">
                 <div class="row-main">
-                  <span class="category-chip category-chip--income">Salary</span>
+                  <span class="category-chip">Category</span>
                   <div>
-                    <p class="transaction-description">Monthly salary</p>
-                    <p class="transaction-date">01 Oct 2026</p>
+                    <p class="transaction-description"></p>
+                    <p class="transaction-date"></p>
                   </div>
                 </div>
                 <div class="row-actions">
-                  <strong class="amount amount--income">+₹25,000</strong>
+                  <strong class="amount"></strong>
                   <div class="icon-actions">
-                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
-                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
+                    <button type="button" class="icon-button" data-action="edit" aria-label="Edit transaction">✎</button>
+                    <button type="button" class="icon-button" data-action="delete" aria-label="Delete transaction">🗑</button>
                   </div>
                 </div>
               </li>
-
-              <li class="transaction-row transaction-row--expense">
-                <div class="row-main">
-                  <span class="category-chip">Bills</span>
-                  <div>
-                    <p class="transaction-description">Electricity bill</p>
-                    <p class="transaction-date">08 Oct 2026</p>
-                  </div>
-                </div>
-                <div class="row-actions">
-                  <strong class="amount amount--expense">-₹1,280</strong>
-                  <div class="icon-actions">
-                    <button type="button" class="icon-button" aria-label="Edit transaction">✎</button>
-                    <button type="button" class="icon-button" aria-label="Delete transaction">🗑</button>
-                  </div>
-                </div>
-              </li>
-            </ul>
+            </template>
 
             <div class="empty-state" hidden>
               <div class="empty-state__illustration" aria-hidden="true">📊</div>
