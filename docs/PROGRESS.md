@@ -13,6 +13,7 @@
 - Added the Phase 5 edit/delete/filter flow with state-driven filters, filtered-empty feedback, delete confirmation, and no-duplicate editing behavior.
 - Implemented the Phase 6 monthly overview with a month picker, monthly totals, and a CSS bar chart of expense categories for the selected month.
 - Completed the Phase 7 accessibility and responsive polish pass, including visible focus states, ARIA invalid state wiring, and a cleaner mobile layout.
+- Added the Phase 8 Playwright E2E suite and regression checklist covering add/edit/delete/filter/persistence, mobile layout, and corrupt-storage recovery.
 
 ## Decisions
 - Build the app as a vanilla HTML/CSS/JS project without frameworks.
@@ -27,7 +28,7 @@
 - Ensure the app remains usable on mobile and keyboard-accessible with strong contrast and explicit focus styling.
 
 ## Next
-- Final QA and README polish for submission.
+- README and final QA submission polish.
 
 ## Known issues
 - No known issues in the current logic layer; the unit test suite is green.

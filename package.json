@@ -2,7 +2,10 @@
   "name": "expense-tracker-swarag-vs",
   "private": true,
   "scripts": {
-    "test": "node --test tests/unit/*.test.js"
+    "test": "node --test tests/unit/*.test.js",
+    "e2e": "playwright test"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
+  }
 }

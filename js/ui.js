@@ -260,6 +260,7 @@
 
   const ui = {
     renderTotals,
+    renderMonthlyOverview,
     renderList,
     showErrors,
     clearErrors,
