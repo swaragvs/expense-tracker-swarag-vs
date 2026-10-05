@@ -59,6 +59,4 @@ This project is a static app and is ready for Vercel with no build step.
 - [tests/e2e/app.spec.js](tests/e2e/app.spec.js) — browser journey checks
 - [tests/REGRESSION.md](tests/REGRESSION.md) — release checklist
 
-## Screenshots
 
-A placeholder section for screenshots can be added later if you want to include product previews in the repository.
