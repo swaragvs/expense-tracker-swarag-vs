@@ -11,6 +11,7 @@
 - Implemented the Phase 4 storage and render layer in `js/storage.js`, `js/ui.js`, and `js/app.js` with `localStorage` persistence, validation, dynamic category switching, default date handling, and state-based redraws.
 - Confirmed the syntax and regression checks remain green after the app layer implementation.
 - Added the Phase 5 edit/delete/filter flow with state-driven filters, filtered-empty feedback, delete confirmation, and no-duplicate editing behavior.
+- Implemented the Phase 6 monthly overview with a month picker, monthly totals, and a CSS bar chart of expense categories for the selected month.
 
 ## Decisions
 - Build the app as a vanilla HTML/CSS/JS project without frameworks.
@@ -21,10 +22,11 @@
 - Keep the UI visually consistent with a calm fintech aesthetic and accessible focus states.
 - Treat the app state as the single source of truth and redraw everything from it after each user action.
 - Keep summary totals global, while the list can be filtered independently to show “Showing X of Y”.
+- Use existing pure logic functions for month summaries and category totals, rendering the chart without any external library.
 
 ## Next
-- Move into the monthly summary and category chart phase for overview analytics.
+- Move into the responsive polish and accessibility pass for final app refinement.
 
 ## Known issues
 - No known issues in the current logic layer; the unit test suite is green.
-- The dashboard is now fully interactive for add/edit/delete/filter flows, and analytics features remain for the next phase.
+- The dashboard is now fully interactive for add/edit/delete/filter and overview-analysis flows, and final polish remains for the next phase.

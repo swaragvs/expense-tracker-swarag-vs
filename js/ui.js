@@ -20,6 +20,66 @@
     balanceCard.classList.toggle('summary-card--negative', totals.balancePaise < 0);
   }
 
+  function renderMonthlyOverview(monthSummary, categoryBreakdown, monthValue) {
+    const incomeNode = document.getElementById('month-income');
+    const expenseNode = document.getElementById('month-expenses');
+    const balanceNode = document.getElementById('month-balance');
+    const monthInput = document.getElementById('month-filter');
+    const chart = document.getElementById('month-chart');
+
+    if (incomeNode) {
+      incomeNode.textContent = window.ET.logic.formatCurrency(getCurrencyValue(monthSummary.incomePaise));
+    }
+
+    if (expenseNode) {
+      expenseNode.textContent = window.ET.logic.formatCurrency(getCurrencyValue(monthSummary.expensePaise));
+    }
+
+    if (balanceNode) {
+      balanceNode.textContent = window.ET.logic.formatCurrency(getCurrencyValue(monthSummary.balancePaise));
+    }
+
+    if (monthInput && monthValue) {
+      monthInput.value = monthValue;
+    }
+
+    if (!chart) {
+      return;
+    }
+
+    if (!Array.isArray(categoryBreakdown) || categoryBreakdown.length === 0) {
+      chart.innerHTML = '<div class="chart-empty">No expenses this month</div>';
+      chart.setAttribute('aria-label', `No expenses for ${monthValue || 'selected month'}`);
+      return;
+    }
+
+    const maxValue = Math.max(...categoryBreakdown.map((item) => Number(item.amountPaise || 0)), 1);
+    const totalSpent = categoryBreakdown.reduce((sum, item) => sum + Number(item.amountPaise || 0), 0);
+
+    const chartItems = categoryBreakdown
+      .map((item) => {
+        const amount = Number(item.amountPaise || 0);
+        const width = Math.max((amount / maxValue) * 100, 10);
+        const percent = totalSpent === 0 ? 0 : (amount / totalSpent) * 100;
+        return `
+          <div class="chart-row">
+            <div class="chart-row__meta">
+              <span>${item.category}</span>
+              <span>${window.ET.logic.formatCurrency(amount)}</span>
+            </div>
+            <div class="chart-track" aria-hidden="true">
+              <div class="chart-bar" style="width: ${width}%"></div>
+            </div>
+            <div class="chart-row__percent">${percent.toFixed(0)}%</div>
+          </div>
+        `;
+      })
+      .join('');
+
+    chart.innerHTML = chartItems;
+    chart.setAttribute('aria-label', `Expense categories for ${monthValue || 'selected month'}: ${categoryBreakdown.map((item) => `${item.category} ${Math.round((Number(item.amountPaise || 0) / totalSpent) * 100)} percent`).join(', ')}`);
+  }
+
   function renderList(transactions, totalCount, filters = {}) {
     const list = document.getElementById('tx-list');
     const empty = document.querySelector('.empty-state');

@@ -24,18 +24,45 @@
         <section class="summary-grid" aria-label="Summary totals">
           <article class="summary-card summary-card--income" aria-live="polite">
             <p class="summary-label">Income</p>
-            <p class="summary-amount">₹51,250</p>
+            <p class="summary-amount">₹0.00</p>
           </article>
 
           <article class="summary-card summary-card--expense" aria-live="polite">
             <p class="summary-label">Expenses</p>
-            <p class="summary-amount">₹28,430</p>
+            <p class="summary-amount">₹0.00</p>
           </article>
 
           <article class="summary-card summary-card--balance" aria-live="polite">
             <p class="summary-label">Balance</p>
-            <p class="summary-amount">₹22,820</p>
+            <p class="summary-amount">₹0.00</p>
           </article>
+        </section>
+
+        <section class="panel monthly-overview" aria-labelledby="monthly-overview-title">
+          <div class="panel-header overview-header">
+            <h2 id="monthly-overview-title">Monthly overview</h2>
+            <label class="month-picker" for="month-filter">
+              <span class="sr-only">Month</span>
+              <input id="month-filter" type="month" />
+            </label>
+          </div>
+
+          <div class="monthly-stats" aria-live="polite">
+            <article class="mini-stat mini-stat--income">
+              <p class="mini-stat__label">Income</p>
+              <strong class="mini-stat__value" id="month-income">₹0.00</strong>
+            </article>
+            <article class="mini-stat mini-stat--expense">
+              <p class="mini-stat__label">Expenses</p>
+              <strong class="mini-stat__value" id="month-expenses">₹0.00</strong>
+            </article>
+            <article class="mini-stat mini-stat--balance">
+              <p class="mini-stat__label">Balance</p>
+              <strong class="mini-stat__value" id="month-balance">₹0.00</strong>
+            </article>
+          </div>
+
+          <div id="month-chart" class="chart" role="img" aria-label="Expense category chart for selected month"></div>
         </section>
 
         <div class="dashboard-grid">

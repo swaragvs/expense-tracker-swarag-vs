@@ -2,6 +2,7 @@
   const state = {
     transactions: [],
     editingId: null,
+    currentMonth: getCurrentMonth(),
     filters: {
       type: 'all',
       category: 'all',
@@ -121,9 +122,21 @@
     ET.ui.clearErrors();
   }
 
+  function getCurrentMonth() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
   function render() {
     const totals = ET.logic.calculateTotals(state.transactions);
+    const currentMonth = state.currentMonth || getCurrentMonth();
+    const monthSummary = ET.logic.summarizeMonth(state.transactions, currentMonth);
+    const monthCategories = ET.logic.expenseByCategory(state.transactions, currentMonth);
+
     ET.ui.renderTotals(totals);
+    ET.ui.renderMonthlyOverview(monthSummary, monthCategories, currentMonth);
     ET.ui.renderList(getVisibleTransactions(), state.transactions.length, state.filters);
 
     const filterType = document.getElementById('filter-type');
@@ -219,6 +232,14 @@
       filteredClearButton.addEventListener('click', handleFilterClear);
     }
 
+    const monthInput = document.getElementById('month-filter');
+    if (monthInput) {
+      monthInput.addEventListener('change', (event) => {
+        state.currentMonth = event.target.value || getCurrentMonth();
+        render();
+      });
+    }
+
     document.getElementById('tx-list')?.addEventListener('click', (event) => {
       const button = event.target.closest('[data-action]');
       if (!button) {
@@ -291,6 +312,7 @@
 
   function init() {
     state.transactions = ET.storage.load();
+    state.currentMonth = getCurrentMonth();
     bindEvents();
     syncFilterCategoryOptions('all');
     resetForm();
